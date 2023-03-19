@@ -10,15 +10,3 @@ const getAllUsers = (req: express.Request, res: express.Response) => {
 };
 
 export default getAllUsers;
-
-// db.users.updateOne(
-//   { email: "maryna@gmail.com" },
-//   {
-//     $set: {
-//       roles: {
-//         Employee: 2002,
-//       },
-//       factoryId: ObjectId("63f4cd96d28a3df3f82b3b20"),
-//     },
-//   }
-// );

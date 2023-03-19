@@ -28,6 +28,7 @@ export default function Unit() {
   const [indicator, setIndicator] = useState<string>("");
   const [indicators, setIndicators] = useState<[IIndicator]>();
   const [records, setRecords] = useState<any[]>();
+  const [avg, setAvg] = useState<any[]>();
   const [yearInput, setYearInput] = useState<string>("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -41,8 +42,9 @@ export default function Unit() {
   const handleShow = async () => {
     setRecords([]);
     const res = await Axios.get(`/api/units/${id}/records/${indicator}`, { withCredentials: true });
+    console.log(res.data.avg);
     setRecords(res.data.records);
-    console.log(res.data.records);
+    setAvg(res.data.avg);
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +53,10 @@ export default function Unit() {
 
   const randomNumber = (num: number) => {
     return +(Math.random() * num).toFixed(2);
+  };
+
+  const randomWorkDays = (num: number) => {
+    return +Math.floor(Math.random() * num);
   };
 
   const generateData = async () => {
@@ -62,18 +68,18 @@ export default function Unit() {
           indicatorId: indicator,
           year: yearInput,
           monthes: {
-            december: randomNumber(10),
-            january: randomNumber(10),
-            february: randomNumber(10),
-            march: randomNumber(10),
-            april: randomNumber(10),
-            may: randomNumber(10),
-            june: randomNumber(10),
-            july: randomNumber(10),
-            august: randomNumber(10),
-            september: randomNumber(10),
-            october: randomNumber(10),
-            november: randomNumber(10),
+            december: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            january: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            february: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            march: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            april: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            may: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            june: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            july: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            august: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            september: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            october: { value: randomNumber(10), workDays: randomWorkDays(24) },
+            november: { value: randomNumber(10), workDays: randomWorkDays(24) },
           },
         },
         {
@@ -153,7 +159,7 @@ export default function Unit() {
           )}
         </Box>
 
-        <IndicatorTable records={records}></IndicatorTable>
+        <IndicatorTable records={records} avg={avg}></IndicatorTable>
 
         <AddYearModal
           open={open}

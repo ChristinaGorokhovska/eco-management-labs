@@ -18,28 +18,33 @@ const style = {
   p: 4,
 };
 
+type MonthType = { [key: string]: { value: number; workDays: number } };
+
 const initialMonthes = {
-  december: 0,
-  january: 0,
-  february: 0,
-  march: 0,
-  april: 0,
-  may: 0,
-  june: 0,
-  july: 0,
-  august: 0,
-  september: 0,
-  october: 0,
-  november: 0,
+  december: { value: 0, workDays: 0 },
+  january: { value: 0, workDays: 0 },
+  february: { value: 0, workDays: 0 },
+  march: { value: 0, workDays: 0 },
+  april: { value: 0, workDays: 0 },
+  may: { value: 0, workDays: 0 },
+  june: { value: 0, workDays: 0 },
+  july: { value: 0, workDays: 0 },
+  august: { value: 0, workDays: 0 },
+  september: { value: 0, workDays: 0 },
+  october: { value: 0, workDays: 0 },
+  november: { value: 0, workDays: 0 },
 };
 
 export default function AddYearModal({ open, setOpen, handleClose, id, indicator, yearInput }: any) {
-  const [monthes, setMonthes] = useState(initialMonthes);
+  const [monthes, setMonthes] = useState<MonthType>(initialMonthes);
 
-  const handleChangeMonthes = (e: any) => {
-    setMonthes({ ...monthes, [e.target.name]: e.target.value });
+  const handleChangeValue = (e: any) => {
+    setMonthes({ ...monthes, [e.target.name]: { value: e.target.value, workDays: monthes[e.target.name].workDays } });
   };
 
+  const handleChangeWorkDays = (e: any) => {
+    setMonthes({ ...monthes, [e.target.name]: { value: monthes[e.target.name].value, workDays: e.target.value } });
+  };
   const handleSubmit = async () => {
     console.log("here", monthes);
     try {
@@ -59,6 +64,41 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
     } catch (error: any) {}
   };
 
+  function RenderInputs() {
+    return (
+      <Grid container spacing={2}>
+        {Object.keys(initialMonthes).map((key, i) => (
+          <>
+            <Grid item xs={3}>
+              <TextField
+                name="december"
+                id="outlined-number"
+                label="December"
+                type="number"
+                onChange={handleChangeValue}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="december"
+                id="outlined-number"
+                label="days"
+                type="number"
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+          </>
+        ))}
+      </Grid>
+    );
+  }
+
   return (
     <div>
       <Modal
@@ -71,6 +111,8 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
           <Typography color={"grey"} pb={2} id="modal-modal-title" variant="h6" component="h2">
             Enter data
           </Typography>
+
+          {/* <RenderInputs /> */}
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <TextField
@@ -78,7 +120,32 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
                 id="outlined-number"
                 label="December"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeValue}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="december"
+                id="outlined-number"
+                label="days"
+                type="number"
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="january"
+                id="outlined-number"
+                label="january"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -88,9 +155,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="january"
                 id="outlined-number"
-                label="January"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="february"
+                id="outlined-number"
+                label="february"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -100,9 +180,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="february"
                 id="outlined-number"
-                label="February"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="march"
+                id="outlined-number"
+                label="march"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -112,9 +205,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="march"
                 id="outlined-number"
-                label="March"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="april"
+                id="outlined-number"
+                label="april"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -124,9 +230,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="april"
                 id="outlined-number"
-                label="April"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="may"
+                id="outlined-number"
+                label="may"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -136,9 +255,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="may"
                 id="outlined-number"
-                label="May"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="june"
+                id="outlined-number"
+                label="june"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -148,9 +280,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="june"
                 id="outlined-number"
-                label="June"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="july"
+                id="outlined-number"
+                label="july"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -160,9 +305,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="july"
                 id="outlined-number"
-                label="July"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="august"
+                id="outlined-number"
+                label="august"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -172,9 +330,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="august"
                 id="outlined-number"
-                label="August"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="september"
+                id="outlined-number"
+                label="september"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -184,9 +355,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="september"
                 id="outlined-number"
-                label="September"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="october"
+                id="outlined-number"
+                label="october"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -196,9 +380,22 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="october"
                 id="outlined-number"
-                label="October"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <TextField
+                name="november"
+                id="outlined-number"
+                label="november"
+                type="number"
+                onChange={handleChangeValue}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -208,15 +405,16 @@ export default function AddYearModal({ open, setOpen, handleClose, id, indicator
               <TextField
                 name="november"
                 id="outlined-number"
-                label="November"
+                label="days"
                 type="number"
-                onChange={handleChangeMonthes}
+                onChange={handleChangeWorkDays}
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
             </Grid>
           </Grid>
+
           <Box marginTop={2} textAlign={"center"}>
             <Button
               onClick={() => {

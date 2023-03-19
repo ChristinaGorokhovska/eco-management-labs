@@ -3,6 +3,13 @@ import Indicator from "../model/IndicatorModel";
 import Record from "../model/RecordModel";
 const mongoose = require("mongoose");
 
+export const getAllIndicators = async (req: express.Request, res: express.Response) => {
+  const indicators = await Indicator.find({});
+
+  if (!indicators || indicators.length === 0) return res.status(403).json({ error: "Indicators are not found" });
+
+  return res.status(200).json({ indicators: indicators });
+};
 export const getIndicators = async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
   console.log(id);
@@ -21,7 +28,7 @@ export const getIndicators = async (req: express.Request, res: express.Response)
   ]);
   console.log(result);
 
-  if (!result || result.length === 0) res.status(403).json({ error: "Indicators are not found" });
+  if (!result || result.length === 0) return res.status(403).json({ error: "Indicators are not found" });
 
   const indicators: any = [];
 

@@ -5,20 +5,69 @@ export interface IRecord {
   year: number;
   unitId: Schema.Types.ObjectId;
   indicatorId: Schema.Types.ObjectId;
+  factoryId: Schema.Types.ObjectId;
 
   monthes: {
-    december: number;
-    january: number;
-    february: number;
-    march: number;
-    april: number;
-    may: number;
-    june: number;
-    july: number;
-    august: number;
-    september: number;
-    october: number;
-    november: number;
+    december: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    january: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    february: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    march: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    april: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    may: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    june: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    july: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    august: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    september: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    october: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
+    november: {
+      value: number;
+      workDays: number;
+      dailyAvg: number;
+    };
   };
 }
 
@@ -27,20 +76,143 @@ export const RecordSchema = new Schema<IRecord>({
 
   unitId: { type: Schema.Types.ObjectId, ref: "Unit" },
   indicatorId: { type: Schema.Types.ObjectId, ref: "User" },
+
   monthes: {
-    december: { type: Number, default: 0 },
-    january: { type: Number, default: 0 },
-    february: { type: Number, default: 0 },
-    march: { type: Number, default: 0 },
-    april: { type: Number, default: 0 },
-    may: { type: Number, default: 0 },
-    june: { type: Number, default: 0 },
-    july: { type: Number, default: 0 },
-    august: { type: Number, default: 0 },
-    september: { type: Number, default: 0 },
-    october: { type: Number, default: 0 },
-    november: { type: Number, default: 0 },
+    december: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    january: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    february: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    march: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    april: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    may: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    june: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    july: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    august: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    september: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    october: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
+    november: {
+      value: { type: Number, default: 0 },
+      workDays: { type: Number, default: 0 },
+      dailyAvg: {
+        type: Number,
+        default: function () {
+          this.value / this.workDays;
+        },
+      },
+    },
   },
+}).pre("save", function (next) {
+  this.monthes.december.dailyAvg = +(this.monthes.december.value / this.monthes.december.workDays).toFixed(2);
+  this.monthes.january.dailyAvg = +(this.monthes.january.value / this.monthes.january.workDays).toFixed(2);
+  this.monthes.february.dailyAvg = +(this.monthes.february.value / this.monthes.february.workDays).toFixed(2);
+  this.monthes.march.dailyAvg = +(this.monthes.march.value / this.monthes.march.workDays).toFixed(2);
+  this.monthes.april.dailyAvg = +(this.monthes.april.value / this.monthes.april.workDays).toFixed(2);
+  this.monthes.may.dailyAvg = +(this.monthes.may.value / this.monthes.may.workDays).toFixed(2);
+  this.monthes.june.dailyAvg = +(this.monthes.june.value / this.monthes.june.workDays).toFixed(2);
+  this.monthes.july.dailyAvg = +(this.monthes.july.value / this.monthes.july.workDays).toFixed(2);
+  this.monthes.august.dailyAvg = +(this.monthes.august.value / this.monthes.august.workDays).toFixed(2) || 0;
+  this.monthes.september.dailyAvg = +(this.monthes.september.value / this.monthes.september.workDays).toFixed(2);
+  this.monthes.october.dailyAvg = +(this.monthes.october.value / this.monthes.october.workDays).toFixed(2) ?? 0;
+  this.monthes.november.dailyAvg = +(this.monthes.november.value / this.monthes.november.workDays).toFixed(2);
+  next();
 });
 
 const Record = mongoose.model<IRecord>("Record", RecordSchema, "record");

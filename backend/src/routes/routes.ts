@@ -7,8 +7,8 @@ import verifyToken from "../middleware/verifyToken";
 import verifyRoles from "../middleware/verifyRoles";
 import ROLES from "../config/roles";
 import logoutUser from "../controllers/logoutController";
-import { addNewUnit, getFactoryNameAndUnits } from "../controllers/unitsController";
-import { getIndicators } from "../controllers/indicatorsController";
+import { addNewUnit, getCalculationsByIndicator, getFactoryNameAndUnits } from "../controllers/unitsController";
+import { getAllIndicators, getIndicators } from "../controllers/indicatorsController";
 import { generateData, getRecordByUnit } from "../controllers/recordController";
 
 const routes = require("express").Router();
@@ -24,8 +24,11 @@ routes.get("/logout", logoutUser);
 
 routes.get("/units", getFactoryNameAndUnits);
 
+routes.get("/indicators", getAllIndicators);
+
 routes.get("/units/:id", getIndicators);
 routes.get("/units/:unitId/records/:indicatorId", getRecordByUnit);
+routes.get("/calculations/:indicatorId", getCalculationsByIndicator);
 
 routes.post("/records", generateData);
 

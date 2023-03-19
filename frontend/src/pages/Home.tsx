@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Axios from "../config/axiosConfig";
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
@@ -16,10 +16,12 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const res = await Axios.get(`/api/units`, { withCredentials: true });
-      setFactoryId(res.data.id);
-      setFactoryName(res.data.factoryName);
-      setFactoryUnits(res.data.units);
+      try {
+        const res = await Axios.get(`/api/units`, { withCredentials: true });
+        setFactoryId(res.data.id);
+        setFactoryName(res.data.factoryName);
+        setFactoryUnits(res.data.units);
+      } catch (error: any) {}
     })();
   }, []);
 
@@ -44,7 +46,11 @@ export default function Home() {
         </Box>
 
         <UnitsGrid factoryUnits={factoryUnits}></UnitsGrid>
-        {auth.roles.includes(2002) ? <AddUnit factoryId={factoryId}></AddUnit> : null}
+        {auth.roles.includes(2002) ? (
+          <>
+            <AddUnit factoryId={factoryId}></AddUnit>
+          </>
+        ) : null}
       </Container>
     </>
   );
