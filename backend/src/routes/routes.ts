@@ -8,14 +8,10 @@ import verifyRoles from "../middleware/verifyRoles";
 import ROLES from "../config/roles";
 import logoutUser from "../controllers/logoutController";
 import { addNewUnit, getCalculationsByIndicator, getFactoryNameAndUnits } from "../controllers/unitsController";
-import { getAllIndicators, getIndicators } from "../controllers/indicatorsController";
-import { generateData, getRecordByUnit } from "../controllers/recordController";
+import { getAllIndicators, getIndicator, getIndicators } from "../controllers/indicatorsController";
+import { generateData, getCostsByUnitAndIndicator, getRecordByUnit } from "../controllers/recordController";
 
 const routes = require("express").Router();
-
-routes.get("/", (req: express.Request, res: express.Response) => {
-  res.send("Test endpoint");
-});
 
 routes.post("/register", createUser);
 routes.post("/login", loginUser);
@@ -25,6 +21,7 @@ routes.get("/logout", logoutUser);
 routes.get("/units", getFactoryNameAndUnits);
 
 routes.get("/indicators", getAllIndicators);
+routes.get("/costs/:unitId/:indicatorId", getCostsByUnitAndIndicator);
 
 routes.get("/units/:id", getIndicators);
 routes.get("/units/:unitId/records/:indicatorId", getRecordByUnit);

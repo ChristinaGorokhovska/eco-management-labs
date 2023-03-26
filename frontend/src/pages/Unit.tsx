@@ -13,6 +13,8 @@ import { Box, Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddYearModal from "../components/AddYearModal";
+import AnnualChartByUnitAndIndicator, { IAnnualCosts } from "../components/graphic/AnnualChartByUnitAndIndicator";
+import ChartByUnitAndIndicator, { IRecord } from "../components/graphic/ChartByUnitAndIndicator";
 import Header from "../components/Header";
 import IndicatorTable from "../components/IndicatorTable";
 import Axios from "../config/axiosConfig";
@@ -27,10 +29,12 @@ export default function Unit() {
   const { id } = useParams();
   const [indicator, setIndicator] = useState<string>("");
   const [indicators, setIndicators] = useState<[IIndicator]>();
-  const [records, setRecords] = useState<any[]>();
+  const [records, setRecords] = useState<IRecord[] | undefined>();
   const [avg, setAvg] = useState<any[]>();
+  const [annualCosts, setAnnualCosts] = useState<IAnnualCosts[]>();
   const [yearInput, setYearInput] = useState<string>("");
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -42,7 +46,6 @@ export default function Unit() {
   const handleShow = async () => {
     setRecords([]);
     const res = await Axios.get(`/api/units/${id}/records/${indicator}`, { withCredentials: true });
-    console.log(res.data.avg);
     setRecords(res.data.records);
     setAvg(res.data.avg);
   };
@@ -90,13 +93,11 @@ export default function Unit() {
     } catch (error: any) {}
   };
 
-  const addRow = async () => {
+  const handleCostsChart = async () => {
     try {
-      await Axios.post("/api/records", {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-    } catch (error: any) {}
+      const res = await Axios.get(`/api/costs/${id}/${indicator}`, { withCredentials: true });
+      setAnnualCosts(res.data.costs);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -158,6 +159,15 @@ export default function Unit() {
             </Typography>
           )}
         </Box>
+
+        <ChartByUnitAndIndicator records={records} />
+        {avg && (
+          <Box display={"flex"} justifyContent="center">
+            <Button onClick={handleCostsChart}>Costs chart</Button>
+          </Box>
+        )}
+
+        {annualCosts && <AnnualChartByUnitAndIndicator records={annualCosts} />}
 
         <IndicatorTable records={records} avg={avg}></IndicatorTable>
 

@@ -1,11 +1,12 @@
 import express from "express";
+import Indicator from "../model/IndicatorModel";
 import Record from "../model/RecordModel";
 const mongoose = require("mongoose");
 
 export const getRecordByUnit = async (req: express.Request, res: express.Response) => {
   const { unitId, indicatorId } = req.params;
 
-  if (!unitId) return res.status(400).json({ message: `Incorrect id` });
+  if (!unitId || !indicatorId) return res.status(400).json({ message: `Incorrect id` });
 
   const result: any = await Record.find({
     unitId: mongoose.Types.ObjectId(unitId),
@@ -55,6 +56,7 @@ export const getRecordByUnit = async (req: express.Request, res: express.Respons
 
     avg.push({
       year: element.year,
+      annual: annual,
       avgAnnual: annual / 12,
       max: findMax,
       min: findMin,
@@ -65,6 +67,34 @@ export const getRecordByUnit = async (req: express.Request, res: express.Respons
   res.status(200).json({ records: records, avg: avg });
 };
 
+export const getCostsByUnitAndIndicator = async (req: express.Request, res: express.Response) => {
+  const { unitId, indicatorId } = req.params;
+
+  if (!unitId || !indicatorId) return res.status(400).json({ message: `Incorrect id` });
+
+  const result: any = await Record.find({
+    unitId: mongoose.Types.ObjectId(unitId),
+    indicatorId: mongoose.Types.ObjectId(indicatorId),
+  });
+
+  const indicator = await Indicator.find({ _id: indicatorId });
+
+  if (!indicator) return res.status(403).json({ error: "Indicator is not found" });
+  if (!result || result.length === 0) return res.status(403).json({ error: "result are not found" });
+
+  const records: any = [];
+  const price: any = indicator[0].price;
+
+  result.forEach((res: any) => {
+    const annual: any = Object.values(res.monthes).reduce((prev: any, curr: any) => {
+      return prev + curr.value;
+    }, 0);
+
+    records.push({ year: res.year, annual: annual * price });
+  });
+
+  res.status(200).json({ costs: records });
+};
 export const getAvgByUnit = async (req: express.Request, res: express.Response) => {
   const { unitId, indicatorId } = req.params;
   if (!unitId) return res.status(400).json({ message: `Incorrect id` });

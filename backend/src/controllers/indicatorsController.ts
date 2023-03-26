@@ -12,7 +12,6 @@ export const getAllIndicators = async (req: express.Request, res: express.Respon
 };
 export const getIndicators = async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
-  console.log(id);
 
   if (!id) return res.status(400).json({ message: `Incorrect id` });
 
@@ -37,4 +36,15 @@ export const getIndicators = async (req: express.Request, res: express.Response)
   });
 
   return res.status(200).json({ indicators: indicators });
+};
+
+export const getIndicator = async (req: express.Request, res: express.Response) => {
+  const { id } = req.params;
+
+  if (!id) return res.status(400).json({ message: `Incorrect id` });
+
+  const indicator = await Indicator.find({ _id: id });
+  if (!indicator) return res.status(403).json({ error: "Indicator is not found" });
+
+  res.status(200).json({ indicator: indicator });
 };
