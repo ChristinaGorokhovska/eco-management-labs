@@ -130,10 +130,10 @@ export default function IndicatorTable({ records, avg }: any) {
                   </TableCell>
 
                   <TableCell align="right">{row.avgAnnual?.toFixed(2)}</TableCell>
-                  <TableCell align="right">{row.max[0]}</TableCell>
-                  <TableCell align="right">{row.max[1].value?.toFixed(2)}</TableCell>
-                  <TableCell align="right">{row.min[0]}</TableCell>
-                  <TableCell align="right">{row.min[1].value?.toFixed(2)}</TableCell>
+                  <TableCell align="right">{row.max && row.max[0]}</TableCell>
+                  <TableCell align="right">{row.max && row.max[1].value?.toFixed(2)}</TableCell>
+                  <TableCell align="right">{row.min && row.min[0]}</TableCell>
+                  <TableCell align="right">{row.min && row.min[1].value?.toFixed(2)}</TableCell>
                   <TableCell align="right">{row.koef?.toFixed(2)}</TableCell>
                 </TableRow>
               ))}

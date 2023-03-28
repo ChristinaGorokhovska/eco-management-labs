@@ -79,7 +79,7 @@ export default function UnitsGrid({ factoryUnits }: any) {
                           borderRadius: 4,
                         }}
                       >
-                        <Link to={`/units/${unit._id}`} style={{ textDecoration: "none" }}>
+                        <Link to={`/units/${unit.name}/${unit._id}`} style={{ textDecoration: "none" }}>
                           <CardActionArea>
                             <CardContent>
                               <Typography color={"white"} variant="h5" py={2} textAlign={"center"}>

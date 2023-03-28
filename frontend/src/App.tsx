@@ -40,7 +40,7 @@ function App() {
             }
           >
             <Route path="info" element={<Info />} />
-            <Route path="units/:id" element={<Unit />} />
+            <Route path="units/:unitName/:id" element={<Unit />} />
           </Route>
         </Route>
 

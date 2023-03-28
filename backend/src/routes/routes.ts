@@ -9,7 +9,12 @@ import ROLES from "../config/roles";
 import logoutUser from "../controllers/logoutController";
 import { addNewUnit, getCalculationsByIndicator, getFactoryNameAndUnits } from "../controllers/unitsController";
 import { getAllIndicators, getIndicator, getIndicators } from "../controllers/indicatorsController";
-import { generateData, getCostsByUnitAndIndicator, getRecordByUnit } from "../controllers/recordController";
+import {
+  generateData,
+  getAnnualCostsByUnit,
+  getCostsByUnitAndIndicator,
+  getRecordByUnit,
+} from "../controllers/recordController";
 
 const routes = require("express").Router();
 
@@ -22,6 +27,7 @@ routes.get("/units", getFactoryNameAndUnits);
 
 routes.get("/indicators", getAllIndicators);
 routes.get("/costs/:unitId/:indicatorId", getCostsByUnitAndIndicator);
+routes.get("/costs/:unitId/annual/:year", getAnnualCostsByUnit);
 
 routes.get("/units/:id", getIndicators);
 routes.get("/units/:unitId/records/:indicatorId", getRecordByUnit);

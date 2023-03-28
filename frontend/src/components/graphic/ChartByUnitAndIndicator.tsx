@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line } from "recharts";
 export interface IRecord {
@@ -72,7 +73,7 @@ export default function ChartByUnitAndIndicator({ records }: { records: IRecord[
   console.log(records);
   records?.forEach((record) => {
     const data: any = [];
-    Object.entries(record.monthes).forEach((month) => data.push({ month: month[0], value: month[1].value }));
+    Object.entries(record.monthes).forEach((month) => data.push({ month: month[0], value: month[1].dailyAvg }));
 
     chartsData.push({
       year: record.year,
@@ -83,23 +84,28 @@ export default function ChartByUnitAndIndicator({ records }: { records: IRecord[
   const barColors = ["#1f77b4", "#ff7f0e", "#2ca02c"];
 
   return (
-    <LineChart width={900} height={300}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} />
-      <YAxis dataKey="value" />
-      <Tooltip />
-      <Legend />
-      {chartsData.map((chart: any, i: number) => (
-        <Line
-          type="monotone"
-          dataKey="value"
-          data={chart.data}
-          name={chart.year + ""}
-          key={chart.name}
-          fill={barColors[i % 20]}
-          stroke={barColors[i % 20]}
-        />
-      ))}
-    </LineChart>
+    <Box my={3} p={2} display={"flex"} alignItems="center" flexDirection={"column"}>
+      <Typography variant="h5" color={"primary"}>
+        Daily Average by every month
+      </Typography>
+      <LineChart width={900} height={300}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} />
+        <YAxis dataKey="value" />
+        <Tooltip />
+        <Legend />
+        {chartsData.map((chart: any, i: number) => (
+          <Line
+            type="monotone"
+            dataKey="value"
+            data={chart.data}
+            name={chart.year + ""}
+            key={chart.name}
+            fill={barColors[i % 20]}
+            stroke={barColors[i % 20]}
+          />
+        ))}
+      </LineChart>
+    </Box>
   );
 }

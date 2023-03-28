@@ -3,7 +3,7 @@ import { useAuthContext } from "../context/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 
-export default function Header() {
+export default function Header({ unit }: { unit: string }) {
   const { auth } = useAuthContext();
   const logout = useLogout();
   const navigate = useNavigate();
@@ -17,9 +17,12 @@ export default function Header() {
     <Box>
       <AppBar>
         <Toolbar sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            Logo
-          </Typography>
+          {unit && (
+            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              {unit}
+            </Typography>
+          )}
+
           <Box gap={2}>
             <Button color="inherit" component={Link} to={"/home"}>
               Home

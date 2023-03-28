@@ -13,7 +13,9 @@ import { Box, Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddYearModal from "../components/AddYearModal";
+import Footer from "../components/Footer";
 import AnnualChartByUnitAndIndicator, { IAnnualCosts } from "../components/graphic/AnnualChartByUnitAndIndicator";
+import AnnualPieChart from "../components/graphic/AnnualPieChart";
 import ChartByUnitAndIndicator, { IRecord } from "../components/graphic/ChartByUnitAndIndicator";
 import Header from "../components/Header";
 import IndicatorTable from "../components/IndicatorTable";
@@ -25,13 +27,19 @@ interface IIndicator {
   name: string;
 }
 
+export interface IAnnualCostsPie {
+  name: string;
+  annual: number;
+}
+
 export default function Unit() {
-  const { id } = useParams();
+  const { unitName, id } = useParams();
   const [indicator, setIndicator] = useState<string>("");
   const [indicators, setIndicators] = useState<[IIndicator]>();
   const [records, setRecords] = useState<IRecord[] | undefined>();
   const [avg, setAvg] = useState<any[]>();
   const [annualCosts, setAnnualCosts] = useState<IAnnualCosts[]>();
+  const [annualCostsPie, setAnnualCostsPie] = useState<IAnnualCostsPie[]>();
   const [yearInput, setYearInput] = useState<string>("");
   const [open, setOpen] = useState(false);
 
@@ -100,6 +108,13 @@ export default function Unit() {
     } catch (error) {}
   };
 
+  const handleAnnualCostsByUnit = async () => {
+    try {
+      const res = await Axios.get(`/api/costs/${id}/annual/${yearInput}`, { withCredentials: true });
+      setAnnualCostsPie(res.data.costs);
+    } catch (error) {}
+  };
+
   useEffect(() => {
     (async () => {
       const res = await Axios.get(`/api/units/${id}`, { withCredentials: true });
@@ -108,8 +123,8 @@ export default function Unit() {
     })();
   }, []);
   return (
-    <>
-      <Header></Header>
+    <Box sx={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
+      <Header unit={unitName || ""}></Header>
       <Container>
         <Box marginTop={16}>
           {indicators ? (
@@ -149,6 +164,7 @@ export default function Unit() {
                     </FormControl>
                     <Button onClick={generateData}> Generate</Button>
                     <Button onClick={handleOpen}>Add</Button>
+                    <Button onClick={handleAnnualCostsByUnit}>Costs</Button>
                   </Box>
                 ) : null}
               </Box>
@@ -160,13 +176,17 @@ export default function Unit() {
           )}
         </Box>
 
-        <ChartByUnitAndIndicator records={records} />
+        {annualCostsPie && <AnnualPieChart records={annualCostsPie} year={yearInput} />}
+
+        {records?.length ? <ChartByUnitAndIndicator records={records} /> : null}
+
         {avg && (
-          <Box display={"flex"} justifyContent="center">
-            <Button onClick={handleCostsChart}>Costs chart</Button>
+          <Box my={5} display={"flex"} justifyContent="center">
+            <Button variant="outlined" onClick={handleCostsChart}>
+              Costs chart
+            </Button>
           </Box>
         )}
-
         {annualCosts && <AnnualChartByUnitAndIndicator records={annualCosts} />}
 
         <IndicatorTable records={records} avg={avg}></IndicatorTable>
@@ -180,6 +200,7 @@ export default function Unit() {
           yearInput={yearInput}
         />
       </Container>
-    </>
+      <Footer />
+    </Box>
   );
 }
