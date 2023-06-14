@@ -73,7 +73,6 @@ export interface IRecord {
 
 export const RecordSchema = new Schema<IRecord>({
   year: { type: Number, required: true },
-
   unitId: { type: Schema.Types.ObjectId, ref: "Unit" },
   indicatorId: { type: Schema.Types.ObjectId, ref: "User" },
 
@@ -83,9 +82,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     january: {
@@ -93,9 +89,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     february: {
@@ -123,9 +116,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     may: {
@@ -133,9 +123,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     june: {
@@ -143,9 +130,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     july: {
@@ -153,9 +137,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     august: {
@@ -163,9 +144,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     september: {
@@ -173,9 +151,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     october: {
@@ -183,9 +158,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
     november: {
@@ -193,9 +165,6 @@ export const RecordSchema = new Schema<IRecord>({
       workDays: { type: Number, default: 0 },
       dailyAvg: {
         type: Number,
-        default: function () {
-          this.value / this.workDays;
-        },
       },
     },
   },
